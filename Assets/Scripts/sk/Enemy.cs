@@ -1,3 +1,4 @@
+using Adohi.Characters.Manager;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,9 +28,13 @@ public class Enemy : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
         wanderCenter = (Vector2)transform.position;
         wanderDist = (Vector2)transform.position;
-        target = GameObject.Find("Target").transform;
+        //target = GameObject.Find("Target").transform;
+        target = CharacterManager.Instance.character.transform;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+
+        CharacterManager.Instance.OnStun.AddListener(Stun);
     }
 
     void Update()
@@ -92,7 +97,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Stun(int duration)
+    public void Stun(float duration)
     {
         stunDuration = duration;
         stunTimer = 0;

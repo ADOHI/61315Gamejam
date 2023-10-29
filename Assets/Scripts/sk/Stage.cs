@@ -1,3 +1,5 @@
+using Adohi.Characters.Manager;
+using Adohi.Managers.GameFlow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +10,7 @@ public class Stage : MonoBehaviour
     public List<MagicCircle> magicCircles = new();
     public int currentCircle = 0;
     [SerializeField] GameObject enemyPrefab;
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject player => CharacterManager.Instance.character;
     public bool isInsideCircle = false;
 
     public static Stage instance = null;
@@ -26,12 +28,14 @@ public class Stage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i=0; i<60; i++)
+        GameFlowManager.Instance.onStartGame.AddListener(OnGameStart);
+
+/*        for(int i=0; i<60; i++)
         {
             CreateEnemy();
         }
         magicCircles[currentCircle].Activate();
-        print(tileMap.localBounds);
+        print(tileMap.localBounds);*/
     }
 
     // Update is called once per frame
@@ -44,6 +48,15 @@ public class Stage : MonoBehaviour
         }
         else isInsideCircle = false;
         */
+    }
+
+    private void OnGameStart()
+    {
+        for (int i = 0; i < 60; i++)
+        {
+            CreateEnemy();
+        }
+        magicCircles[currentCircle].Activate();
     }
 
     void CreateEnemy()

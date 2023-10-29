@@ -1,6 +1,10 @@
+using Adohi.Characters;
+using Adohi.Characters.Manager;
+using Adohi.Managers.GameFlow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class MagicCircle : MonoBehaviour
@@ -56,5 +60,7 @@ public class MagicCircle : MonoBehaviour
         barBg.SetActive(false);
         animator.SetTrigger("On");
         Stage.instance.CircleFinished();
+
+        CharacterManager.Instance.character.GetComponent<PlayerCharacter>().OnLevelUp();
     }
 }

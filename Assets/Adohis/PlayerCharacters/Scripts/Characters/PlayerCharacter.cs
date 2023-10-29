@@ -67,7 +67,7 @@ namespace Adohi.Characters
                 currentLevel++;
                 LevelUp(currentLevel);
                 //playerCharacterController.SwapModel(currentLevel);
-                LevelUpAsync().Forget();
+                //LevelUpAsync().Forget();
             }
         }
 
