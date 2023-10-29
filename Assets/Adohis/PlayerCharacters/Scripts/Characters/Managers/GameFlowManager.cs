@@ -1,5 +1,7 @@
+using Adohi.Characters.Cameras;
 using Adohi.Characters.King;
 using Adohi.Characters.Manager;
+using Adohi.Managers.UIs;
 using Cysharp.Threading.Tasks;
 using Pixelplacement;
 using Sirenix.OdinInspector;
@@ -38,10 +40,15 @@ namespace Adohi.Managers.GameFlow
         public GameObject titleText;
         public float titleRevealDuration;
 
+        [Header("Chunks")]
+        public GameObject gameOverChunk;
+        public GameObject endingChunk;
 
         [Header("BGMs")]
         public AudioClip titleBgm;
         public AudioClip ingameBgm;
+        public AudioClip gameOverBgm;
+        public AudioClip endingBgm;
 
         [Header("Events")]
         public UnityEvent onWaitGame;
@@ -58,8 +65,9 @@ namespace Adohi.Managers.GameFlow
 
         private void Start()
         {
+            Time.timeScale = 1f;
             FlowGameAsync().AttachExternalCancellation(this.destroyCancellationToken).Forget();
-
+            GlobalUIManager.Instance.Fade(2f, 0f);
             SoundManager.PlayMusic(titleBgm, fadeinTime: 3f);
         }
 
@@ -80,11 +88,13 @@ namespace Adohi.Managers.GameFlow
 
             onWaitGame?.Invoke();
             SoundManager.StopMusic(titleBgm, fadeoutTime: 3f);
+            gameFlowType = GameFlowType.Ingame;
+
             await king.GiveCrown();
             SoundManager.StopAll();
             SoundManager.PlayMusic(ingameBgm, fadeinTime: 3f);
+
             king.Desolve(5f);
-            gameFlowType = GameFlowType.Ingame;
             onStartGame?.Invoke();
 
             ShowTitleAsync().AttachExternalCancellation(this.destroyCancellationToken).Forget();
@@ -146,12 +156,27 @@ namespace Adohi.Managers.GameFlow
         public async UniTask GameOver()
         {
             Time.timeScale = 0f;
-
+            SoundManager.StopMusic(ingameBgm, fadeoutTime: 3f);
+            await GlobalUIManager.Instance.FadeAsync(3f, 1f);
+            SoundManager.PlayMusic(gameOverBgm, fadeinTime: 3f);
+            await UniTask.Delay(2000, ignoreTimeScale: true);
+            gameOverChunk.SetActive(true);
+            await UniTask.Delay(5000, ignoreTimeScale: true);
+            SoundManager.StopAll();
+            SceneManager.LoadSceneAsync(0);
         }
 
         public async UniTask GameEnd()
         {
-
+            Time.timeScale = 0f;
+            SoundManager.StopMusic(ingameBgm, fadeoutTime: 3f);
+            await GlobalUIManager.Instance.FadeAsync(3f, 1f);
+            SoundManager.PlayMusic(endingBgm, fadeinTime: 3f);
+            await UniTask.Delay(2000, ignoreTimeScale: true);
+            endingChunk.SetActive(true);
+            await UniTask.Delay(5000, ignoreTimeScale: true);
+            SoundManager.StopAll();
+            SceneManager.LoadSceneAsync(0);
         }
     }
 
