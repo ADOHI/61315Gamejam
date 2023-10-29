@@ -1,4 +1,5 @@
 using Adohi.Managers.GameFlow;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
@@ -230,8 +231,9 @@ namespace Adohi.Characters.Controller
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("test"))
             {
-                Time.timeScale = 0f;
                 Debug.Log("GameOver");
+
+                GameFlowManager.Instance.GameOver().Forget();
             }
         }
     }

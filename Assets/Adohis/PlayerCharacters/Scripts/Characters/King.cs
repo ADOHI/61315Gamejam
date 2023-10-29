@@ -38,7 +38,7 @@ namespace Adohi.Characters.King
         public async UniTask GiveCrown()
         {
             crown.SetActive(true);
-
+            pressKeyText.gameObject.SetActive(false);
             await crown.transform.DOMove(CharacterManager.Instance.character.transform.position + toOffset, giveDuration).From(transform.position + fromOffset);
             await UniTask.Delay((int)(remainDuration * 1000f));
 
@@ -61,7 +61,7 @@ namespace Adohi.Characters.King
 
         public void Desolve(float time)
         {
-            GetComponentInChildren<Collider>().enabled = false;
+            GetComponentInChildren<Collider2D>().enabled = false;
             renderer.material.DOFloat(1f, "_FadeAmount", time).OnComplete(() => Destroy(gameObject));
         }
 

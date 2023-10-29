@@ -1,5 +1,6 @@
 using Adohi.Characters.Controller;
 using Adohi.Characters.Manager;
+using Adohi.Managers.GameFlow;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using System;
@@ -66,13 +67,16 @@ namespace Adohi.Characters
                 currentLevel++;
                 LevelUp(currentLevel);
                 //playerCharacterController.SwapModel(currentLevel);
+                LevelUpAsync().Forget();
             }
         }
 
         public async UniTask LevelUpAsync()
         {
             Time.timeScale = 0f;
-            await UniTask.Delay(2000);
+            await CharacterManager.Instance.followCamera.ZoomAsync(5f, 1f);
+            await UniTask.Delay(2000, ignoreTimeScale : true);
+            await CharacterManager.Instance.followCamera.ZoomAsync(10f, 1f);
             Time.timeScale = 1f;
         }
 

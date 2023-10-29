@@ -1,4 +1,5 @@
 using Adohi.Characters.Manager;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -41,7 +42,12 @@ namespace Adohi.Characters.Cameras
 
         public void Zoom(float distance, float duration)
         {
-            DOTween.To(() => currentFollowDistance, x => currentFollowDistance = x, distance, duration);
+            DOTween.To(() => currentFollowDistance, x => currentFollowDistance = x, distance, duration).SetUpdate(true);
+        }
+
+        public async UniTask ZoomAsync(float distance, float duration)
+        {
+            await DOTween.To(() => currentFollowDistance, x => currentFollowDistance = x, distance, duration).SetUpdate(true);
         }
 
         public void ZoomOut()
@@ -52,12 +58,12 @@ namespace Adohi.Characters.Cameras
         [Button]
         public void OnStun()
         {
-            ShakeCamera(2f, strength : 1f);
+            ShakeCamera(2f, strength : 1f, false);
         }
 
-        public void ShakeCamera(float time, float strength)
+        public void ShakeCamera(float time, float strength, bool isUpdate)
         {
-            camera.DOShakePosition(2f, strength: 1f);
+            camera.DOShakePosition(2f, strength: 1f).SetUpdate(isUpdate);
         }
     }
 

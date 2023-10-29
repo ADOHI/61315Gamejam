@@ -84,8 +84,8 @@ namespace Adohi.Managers.GameFlow
             SoundManager.StopAll();
             SoundManager.PlayMusic(ingameBgm, fadeinTime: 3f);
             king.Desolve(5f);
-            onStartGame?.Invoke();
             gameFlowType = GameFlowType.Ingame;
+            onStartGame?.Invoke();
 
             ShowTitleAsync().AttachExternalCancellation(this.destroyCancellationToken).Forget();
 
@@ -145,6 +145,7 @@ namespace Adohi.Managers.GameFlow
 
         public async UniTask GameOver()
         {
+            Time.timeScale = 0f;
 
         }
 
