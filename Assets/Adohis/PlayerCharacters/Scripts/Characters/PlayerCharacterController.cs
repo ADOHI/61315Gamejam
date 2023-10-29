@@ -159,9 +159,31 @@ namespace Adohi.Characters.Controller
                 rb.velocity = (Vector3)moveDirection * moveSpeed;
             }
 
+            PreventGoingOutside();
+
             RegenerateStamina();
 
 
+        }
+
+        private void PreventGoingOutside()
+        {
+            if (rb.position.y > Stage.instance.tileMap.localBounds.size.y / 2)
+            {
+                rb.position = new Vector2(rb.position.x, Stage.instance.tileMap.localBounds.size.y / 2);
+            }
+            else if (rb.position.y < -Stage.instance.tileMap.localBounds.size.y / 2 + 1)
+            {
+                rb.position = new Vector2(rb.position.x, -Stage.instance.tileMap.localBounds.size.y / 2 + 1);
+            }
+            if (rb.position.x > Stage.instance.tileMap.localBounds.size.x / 2 - 0.5f)
+            {
+                rb.position = new Vector2(Stage.instance.tileMap.localBounds.size.x / 2 - 0.5f, rb.position.y);
+            }
+            else if (rb.position.x < -Stage.instance.tileMap.localBounds.size.x / 2 + 0.5f)
+            {
+                rb.position = new Vector2(-Stage.instance.tileMap.localBounds.size.x / 2 + 0.5f, rb.position.y);
+            }
         }
 
         private void RegenerateStamina()

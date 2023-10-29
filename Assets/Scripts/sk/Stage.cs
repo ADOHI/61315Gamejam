@@ -17,6 +17,9 @@ public class Stage : MonoBehaviour
 
     public Tilemap tileMap;
 
+    [SerializeField] int initialGenAmount = 50;
+    [SerializeField] List<int> additionalGenAmount = new List<int> { 30, 30, 30, 30 };
+
     private void Awake()
     {
         if (instance == null)
@@ -30,12 +33,12 @@ public class Stage : MonoBehaviour
     {
         GameFlowManager.Instance.onStartGame.AddListener(OnGameStart);
 
-/*        for(int i=0; i<60; i++)
-        {
-            CreateEnemy();
-        }
-        magicCircles[currentCircle].Activate();
-        print(tileMap.localBounds);*/
+        /*        for(int i=0; i<60; i++)
+                {
+                    CreateEnemy();
+                }
+                magicCircles[currentCircle].Activate();
+                print(tileMap.localBounds);*/
     }
 
     // Update is called once per frame
@@ -52,7 +55,7 @@ public class Stage : MonoBehaviour
 
     private void OnGameStart()
     {
-        for (int i = 0; i < 60; i++)
+        for (int i = 0; i < initialGenAmount; i++)
         {
             CreateEnemy();
         }
@@ -86,7 +89,7 @@ public class Stage : MonoBehaviour
     {
         if (currentCircle < 4)
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < additionalGenAmount[currentCircle]; i++)
             {
                 CreateEnemy();
             }

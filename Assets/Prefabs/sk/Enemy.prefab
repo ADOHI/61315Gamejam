@@ -103,7 +103,7 @@ MonoBehaviour:
   target: {fileID: 0}
   sightRange: 8
   trackRange: 10
-  trackSpeed: 3.5
+  trackSpeed: 3.75
   wanderSpeed: 2
 --- !u!50 &8196960934019940365
 Rigidbody2D:

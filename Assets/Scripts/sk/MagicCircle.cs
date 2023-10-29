@@ -32,7 +32,7 @@ public class MagicCircle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isActivated && collision != null)
+        if (isActivated && collision != null && collision.gameObject.layer.Equals(LayerMask.NameToLayer("Enemy")))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             Vector2 pos = (Vector2)(transform.position + radius * Random.value * (collision.transform.position - transform.position).normalized);
