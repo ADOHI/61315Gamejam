@@ -38,7 +38,9 @@ namespace Adohi.Characters.Controller
         [Header("UI")]
         public GameObject staminaUIChunk;
         public GameObject staminaBar;
-
+        [Header("Sfxs")]
+        public AudioClip walkSfx;
+        public AudioClip runSfx;
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -139,6 +141,13 @@ namespace Adohi.Characters.Controller
         private void Move()
         {
             //transform.position += (Vector3)moveDirection * moveSpeed * Time.deltaTime;
+            if (moveDirection == Vector2.zero)
+            {
+                rb.velocity = moveDirection;
+                SoundManager.StopFx(walkSfx);
+                SoundManager.StopFx(runSfx);
+                return;
+            }
 
             if (GameFlowManager.Instance.gameFlowType == GameFlowManager.GameFlowType.Title)
             {
@@ -152,11 +161,15 @@ namespace Adohi.Characters.Controller
             if (Input.GetKey(dashKey) && currentStamina > 0f)
             {
                 rb.velocity = (Vector3)moveDirection * moveSpeed * dashSpeedMultiplier;
+                SoundManager.StopFx(walkSfx);
+                SoundManager.PlayFx(runSfx, loop:true);
                 UseStamina();
             }
             else
             {
                 rb.velocity = (Vector3)moveDirection * moveSpeed;
+                SoundManager.StopFx(runSfx);
+                SoundManager.PlayFx(walkSfx, loop: true);
             }
 
             PreventGoingOutside();
@@ -251,7 +264,7 @@ namespace Adohi.Characters.Controller
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.layer == LayerMask.NameToLayer("test"))
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 Debug.Log("GameOver");
 

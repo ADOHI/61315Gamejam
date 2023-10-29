@@ -31,6 +31,8 @@ namespace Adohi.Characters
         public float currentStunCooltime;
         private bool IsStunAvailable => currentLevel >= 1;
 
+        [Header("Sfxs")]
+        public AudioClip stunSfx;
 
         [Header("LevelConfig")]
         public CharacterLevelData[] levelData;
@@ -69,6 +71,10 @@ namespace Adohi.Characters
                 //playerCharacterController.SwapModel(currentLevel);
                 //LevelUpAsync().Forget();
             }
+            else if (currentLevel >= 4)
+            {
+                GameFlowManager.Instance.GameEnd();
+            }
         }
 
         public async UniTask LevelUpAsync()
@@ -84,7 +90,7 @@ namespace Adohi.Characters
         {
             CharacterManager.Instance.OnStun?.Invoke(stunDuration);
             Debug.Log("stun start");
-
+            SoundManager.PlayFx(stunSfx);
             StunAsync().AttachExternalCancellation(this.destroyCancellationToken).Forget();
         }
 

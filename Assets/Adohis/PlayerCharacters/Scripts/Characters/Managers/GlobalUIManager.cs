@@ -1,21 +1,27 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using Pixelplacement;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Adohi.Managers.UIs
 {
-    public class GlobalUIManager : MonoBehaviour
+    public class GlobalUIManager : Singleton<GlobalUIManager>
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        public Image fadeImage;
 
+
+
+        public void Fade(float duration, float alpha)
+        {
+            fadeImage.DOFade(alpha, duration).SetUpdate(true);
         }
 
-        // Update is called once per frame
-        void Update()
+        public async UniTask FadeAsync(float duration, float alpha)
         {
-
+            await fadeImage.DOFade(alpha, duration).SetUpdate(true);
         }
     }
 
