@@ -4541,8 +4541,8 @@ MonoBehaviour:
   endingChunk: {fileID: 345990000}
   titleBgm: {fileID: 8300000, guid: 4c4f0e712addbd74dada1597f7215113, type: 3}
   ingameBgm: {fileID: 8300000, guid: ea50de83638033e47b71a21fa884d849, type: 3}
-  gameOverBgm: {fileID: 0}
-  endingBgm: {fileID: 0}
+  gameOverBgm: {fileID: 8300000, guid: 64a337087bd793b478d6e9662b959e32, type: 3}
+  endingBgm: {fileID: 8300000, guid: 6fe76454896368c4bb427ce9c7d38c09, type: 3}
   onWaitGame:
     m_PersistentCalls:
       m_Calls: []
